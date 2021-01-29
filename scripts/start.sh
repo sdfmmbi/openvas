@@ -36,24 +36,24 @@ done
 echo "Redis ready."
 
 # This is for a first run with no existing database.
-if  [ ! -d /data/database ]; then
-	echo "Creating Data and database folder..."
-	mv /var/lib/postgresql/12/main /data/database
-	ln -s /data/database /var/lib/postgresql/12/main
-	chown postgres:postgres -R /var/lib/postgresql/12/main
-	chown postgres:postgres -R /data/database
-fi
+#if  [ ! -d /data/database ]; then
+	#echo "Creating Data and database folder..."
+	#mv /var/lib/postgresql/12/main /data/database
+	#ln -s /data/database /var/lib/postgresql/12/main
+	#chown postgres:postgres -R /var/lib/postgresql/12/main
+	#chown postgres:postgres -R /data/database
+#fi
 
 # These are  needed for a first run WITH a new container image
 # and an existing database in the mounted volume at /data
 
-if [ ! -L /var/lib/postgresql/12/main ]; then
-	echo "Fixing Database folder..."
-	rm -rf /var/lib/postgresql/12/main
-	ln -s /data/database /var/lib/postgresql/12/main
-	chown postgres:postgres -R /var/lib/postgresql/12/main
-	chown postgres:postgres -R /data/database
-fi
+#if [ ! -L /var/lib/postgresql/12/main ]; then
+	#echo "Fixing Database folder..."
+	#rm -rf /var/lib/postgresql/12/main
+	#ln -s /data/database /var/lib/postgresql/12/main
+	#chown postgres:postgres -R /var/lib/postgresql/12/main
+	#chown postgres:postgres -R /data/database
+#fi
 
 if [ ! -L /usr/local/var/lib  ]; then
 	echo "Fixing local/var/lib ... "
@@ -75,20 +75,19 @@ fi
 # Postgres config should be tighter.
 # Actually, postgress should be in its own container!
 # maybe redis should too. 
-if [ ! -f "/setup" ]; then
-	echo "Creating postgresql.conf and pg_hba.conf"
-	# Need to look at restricting this. Maybe to localhost ?
-	echo "listen_addresses = '*'" >> /data/database/postgresql.conf
-	echo "port = 5432" >> /data/database/postgresql.conf
-	# This probably tooooo open.
-	echo -e "host\tall\tall\t0.0.0.0/0\ttrust" >> /data/database/pg_hba.conf
-	echo -e "host\tall\tall\t::0/0\ttrust" >> /data/database/pg_hba.conf
-	echo -e "local\tall\tall\ttrust"  >> /data/database/pg_hba.conf
-fi
+#if [ ! -f "/setup" ]; then
+	#echo "Creating postgresql.conf and pg_hba.conf"
+	## Need to look at restricting this. Maybe to localhost ?
+	#echo "listen_addresses = '*'" >> /data/database/postgresql.conf
+	#echo "port = 5432" >> /data/database/postgresql.conf
+	## This probably tooooo open.
+	#echo -e "host\tall\tall\t0.0.0.0/0\ttrust" >> /data/database/pg_hba.conf
+	#echo -e "host\tall\tall\t::0/0\ttrust" >> /data/database/pg_hba.conf
+	#echo -e "local\tall\tall\ttrust"  >> /data/database/pg_hba.conf
+#fi
 
 echo "Starting PostgreSQL..."
-su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database start" postgres
-
+#su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database start" postgres
 
 echo "Running first start configuration..."
 if !  grep -qs gvm /etc/passwd ; then 
@@ -101,22 +100,22 @@ if [ ! -d /usr/local/var/lib/gvm/cert-data ]; then
 fi
 
 
-if [ ! -f "/data/setup" ]; then
-	echo "Creating Greenbone Vulnerability Manager database"
-	su -c "createuser -DRS gvm" postgres
-	su -c "createdb -O gvm gvmd" postgres
-	su -c "psql --dbname=gvmd --command='create role dba with superuser noinherit;'" postgres
-	su -c "psql --dbname=gvmd --command='grant dba to gvm;'" postgres
-	su -c "psql --dbname=gvmd --command='create extension \"uuid-ossp\";'" postgres
-	su -c "psql --dbname=gvmd --command='create extension \"pgcrypto\";'" postgres
-	chown postgres:postgres -R /data/database
-	su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database restart" postgres
-	if [ ! /data/var-lib/gvm/CA/servercert.pem ]; then
-		echo "Generating certs..."
-    	gvm-manage-certs -a
-	fi
-	touch /data/setup
-fi
+#if [ ! -f "/data/setup" ]; then
+	#echo "Creating Greenbone Vulnerability Manager database"
+	#su -c "createuser -DRS gvm" postgres
+	#su -c "createdb -O gvm gvmd" postgres
+	#su -c "psql --dbname=gvmd --command='create role dba with superuser noinherit;'" postgres
+	#su -c "psql --dbname=gvmd --command='grant dba to gvm;'" postgres
+	#su -c "psql --dbname=gvmd --command='create extension \"uuid-ossp\";'" postgres
+	#su -c "psql --dbname=gvmd --command='create extension \"pgcrypto\";'" postgres
+	#chown postgres:postgres -R /data/database
+	#su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database restart" postgres
+	#if [ ! /data/var-lib/gvm/CA/servercert.pem ]; then
+		#echo "Generating certs..."
+    	#gvm-manage-certs -a
+	#fi
+	#touch /data/setup
+#fi
 
 # Always make sure these are right.
 
@@ -134,7 +133,7 @@ fi
 
 mkdir -p /usr/local/var/lib/openvas/plugins
 chown -R gvm:gvm /usr/local/var/lib/openvas 
-
+#sleep 3600
 su -c "gvmd --migrate" gvm
 
 echo "Updating NVTs and other data"

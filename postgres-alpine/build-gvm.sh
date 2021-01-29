@@ -96,9 +96,9 @@ gvmd_version="v20.8.0" \
 gsa_version="v20.8.0" \
 open_scanner_protocol_daemon="v20.8.1" \
 ospd_openvas="v20.8.0" \
-gvm_tools_version="v21.1.0" \
+gvm_tools_version="v2.1.0" \
 openvas_smb="v1.0.5" \
-python_gvm_version="v21.1.1"
+python_gvm_version="v1.6.0"
 
 
 
