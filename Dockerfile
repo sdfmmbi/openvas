@@ -1,6 +1,6 @@
 # Stage 0: Start with a squashed fully updated ubuntu:20.04
 # This is created seperately.
-FROM immauss/ovas-base:20.04u
+FROM debian:buster
 
 # Ensure apt doesn't ask any questions 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -32,7 +32,7 @@ COPY build.d/10-link.sh /build.d/
 RUN /build.d/10-link.sh
 
 # Stage 1: Start again with the squashed fully updated ubuntu:20.04
-FROM immauss/ovas-base:20.04u
+FROM debian:buster
 LABEL maintainer="scott@immauss.com" \
       version="20.08.4" \
       url="https://hub.docker.com/immauss/openvas" \
