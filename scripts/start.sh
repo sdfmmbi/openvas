@@ -3,7 +3,7 @@ set -Eeuo pipefail
 #Define  proper shutdown 
 cleanup() {
     echo "Container stopped, performing shutdown"
-    su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database stop" postgres
+    su -c "/usr/lib/postgresql/11/bin/pg_ctl -D /data/database stop" postgres
 }
 
 #Trap SIGTERM
@@ -49,9 +49,9 @@ echo "Redis ready."
 if  [ ! -d /data/database ]; then
 	mkdir -p /data/database
 	echo "Creating Data and database folder..."
-	mv /var/lib/postgresql/12/main/* /data/database
-	ln -s /data/database /var/lib/postgresql/12/main
-	chown postgres:postgres -R /var/lib/postgresql/12/main
+	mv /var/lib/postgresql/11/main/* /data/database
+	ln -s /data/database /var/lib/postgresql/11/main
+	chown postgres:postgres -R /var/lib/postgresql/11/main
 	chown postgres:postgres -R /data/database
 	chmod 700 /data/database
 	#Use this later to import the base DB or not
@@ -61,11 +61,11 @@ fi
 # These are  needed for a first run WITH a new container image
 # and an existing database in the mounted volume at /data
 
-if [ ! -L /var/lib/postgresql/12/main ]; then
+if [ ! -L /var/lib/postgresql/11/main ]; then
 	echo "Fixing Database folder..."
-	rm -rf /var/lib/postgresql/12/main
-	ln -s /data/database /var/lib/postgresql/12/main
-	chown postgres:postgres -R /var/lib/postgresql/12/main
+	rm -rf /var/lib/postgresql/11/main
+	ln -s /data/database /var/lib/postgresql/11/main
+	chown postgres:postgres -R /var/lib/postgresql/11/main
 	chown postgres:postgres -R /data/database
 fi
 
@@ -101,7 +101,7 @@ if [ ! -f "/setup" ]; then
 fi
 
 echo "Starting PostgreSQL..."
-su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database start" postgres
+su -c "/usr/lib/postgresql/11/bin/pg_ctl -D /data/database start" postgres
 
 echo "Running first start configuration..."
 if !  grep -qs gvm /etc/passwd ; then 
@@ -123,7 +123,7 @@ if [ ! -f "/data/setup" ]; then
 	su -c "psql --dbname=gvmd --command='create extension \"uuid-ossp\";'" postgres
 	su -c "psql --dbname=gvmd --command='create extension \"pgcrypto\";'" postgres
 	chown postgres:postgres -R /data/database
-	su -c "/usr/lib/postgresql/12/bin/pg_ctl -D /data/database restart" postgres
+	su -c "/usr/lib/postgresql/11/bin/pg_ctl -D /data/database restart" postgres
 	if [ ! /data/var-lib/gvm/CA/servercert.pem ]; then
 		echo "Generating certs..."
     	gvm-manage-certs -a
@@ -140,7 +140,7 @@ if [ $NEWDB = "true" ] ; then
 	ls -l /usr/lib/*.xz
 	xzcat /usr/lib/base.sql.xz > /data/base-db.sql
 	chown postgres /data/base-db.sql
-	su -c "/usr/lib/postgresql/12/bin/psql -q < /data/base-db.sql " postgres
+	su -c "/usr/lib/postgresql/11/bin/psql -q < /data/base-db.sql " postgres
 	rm /data/base-db.sql
 	cd /data 
 	echo "###########################################"

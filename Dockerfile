@@ -44,7 +44,7 @@ ENV LANG=C.UTF-8
 # Ensure apt doesn't ask any questions 
 ENV DEBIAN_FRONTEND=noninteractive
 # Install the dependencies
-RUN apt-get update && apt-get install -yq --no-install-recommends xz-utils ca-certificates curl doxygen geoip-database gnutls-bin graphviz ike-scan libmicrohttpd12 libnet1 libhdb9-heimdal libsnmp35 libssh-gcrypt-4 libical3 libgpgme11 libnet-snmp-perl locales-all mailutils net-tools nmap nsis openssh-client openssh-server perl-base pkg-config postfix postgresql-12 python3-defusedxml python3-dialog python3-lxml python3-paramiko python3-pip python3-polib python3-psutil python3-setuptools redis-server redis-tools rsync smbclient sshpass texlive-fonts-recommended texlive-latex-extra wapiti wget whiptail xml-twig-tools xsltproc && \
+RUN apt-get update && apt-get install -yq --no-install-recommends xz-utils ca-certificates curl doxygen geoip-database gnutls-bin graphviz ike-scan libmicrohttpd12 libnet1 libhdb9-heimdal libsnmp-dev libssh-gcrypt-4 libical3 libgpgme11 libnet-snmp-perl locales-all mailutils net-tools nmap nsis openssh-client openssh-server perl-base pkg-config postfix postgresql-11 python3-defusedxml python3-dialog python3-lxml python3-paramiko python3-pip python3-polib python3-psutil python3-setuptools redis-server redis-tools rsync smbclient sshpass texlive-fonts-recommended texlive-latex-extra wapiti wget whiptail xml-twig-tools xsltproc && \
 apt-get clean && \
 mkdir -p /usr/local/lib 
 COPY .base-ts /

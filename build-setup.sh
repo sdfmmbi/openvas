@@ -2,13 +2,7 @@
 set -Eeuo pipefail
 echo "install curl"
 apt-get update
-apt-get install -y gnupg curl
 
-echo "Install the postgres repo"
-echo "deb http://apt.postgresql.org/pub/repos/apt focal-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-
-apt-get update 
 
 echo "install required packages"
 { cat <<EOF
@@ -24,6 +18,7 @@ gcc
 gcc-mingw-w64
 geoip-database
 gnutls-bin
+gnupg
 graphviz
 heimdal-dev
 ike-scan
@@ -54,8 +49,8 @@ openssh-server
 perl-base
 pkg-config
 postfix
-postgresql-12
-postgresql-server-dev-12
+postgresql-11
+postgresql-server-dev-11
 python3-defusedxml
 python3-dialog
 python3-lxml
