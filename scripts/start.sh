@@ -331,7 +331,7 @@ if [ ! -S /var/run/gvmd.sock ]; then
 fi
 
 echo "Starting Greenbone Security Assistant..."
-su -c "gsad --listen=0.0.0.0 --port=9392 --mlisten=0.0.0.0 --port=9390" gvm
+su -c "gsad --listen=0.0.0.0 --port=9392 --mlisten=0.0.0.0 --port=9390 --timeout=1440" gvm
 GVMVER=$(su -c "gvmd --version" gvm ) 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "+ Your GVM/openvas/postgresql container is now ready to use! +"
