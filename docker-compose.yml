@@ -2,9 +2,11 @@ version: "3.3"
 services:
   openvas:
     ports:
-      - "8080:9392"
+      - "9392:9392"
+      - "9390:9390"
+      - "2222:22"
     environment:
-      - "PASSWORD=Your admin password here"
+      - "PASSWORD=123456Qq"
     volumes:
       - "openvas:/data"
     container_name: openvas
