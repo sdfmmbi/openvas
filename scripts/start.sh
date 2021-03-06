@@ -250,7 +250,7 @@ if [ $SKIPSYNC == "false" ]; then
 fi
 
 echo "Starting Greenbone Vulnerability Manager..."
-su -c "gvmd --osp-vt-update=/tmp/ospd.sock" gvm
+su -c "gvmd  --listen=0.0.0.0 --port=9390 --osp-vt-update=/tmp/ospd.sock" gvm
 
 until su -c "gvmd --get-users" gvm; do
 	echo "Waiting for gvmd"
@@ -331,7 +331,7 @@ if [ ! -S /var/run/gvmd.sock ]; then
 fi
 
 echo "Starting Greenbone Security Assistant..."
-su -c "gsad --verbose --http-only --no-redirect --port=9392" gvm
+su -c "gsad --listen=0.0.0.0 --port=9392 --mlisten=0.0.0.0 --port=9390" gvm
 GVMVER=$(su -c "gvmd --version" gvm ) 
 echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "+ Your GVM/openvas/postgresql container is now ready to use! +"
