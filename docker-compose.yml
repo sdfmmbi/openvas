@@ -2,14 +2,14 @@ version: "3.3"
 services:
   openvas:
     ports:
-      - "9392:9392"
-      - "9390:9390"
-      - "2222:22"
+      - "39392:9392"
+      - "39390:9390"
+      - "32222:22"
     environment:
       - "PASSWORD=123456Qq"
     volumes:
       - "openvas:/data"
     container_name: openvas
-    image: immauss/openvas
+    image: openvas
 volumes:
   openvas:
