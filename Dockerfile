@@ -20,6 +20,8 @@ LABEL maintainer="scott@immauss.com" \
       
       
 EXPOSE 9392
+EXPOSE 9390
+EXPOSE 22
 ENV LANG=C.UTF-8
 # Ensure apt doesn't ask any questions 
 ENV DEBIAN_FRONTEND=noninteractive
